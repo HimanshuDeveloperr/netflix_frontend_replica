@@ -6,7 +6,7 @@ const Header = () => {
       <nav className="navbar navbar-expand-md navbar-dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="a">
-            <img class="nav__logo" src="https://www.freepnglogos.com/uploads/netflix-logo-0.png" alt="" />
+            <img className="nav__logo" src="https://www.freepnglogos.com/uploads/netflix-logo-0.png" alt="" />
           </a>
 
           <div className="navbar">

@@ -1,5 +1,7 @@
 import './App.scss';
+// import Banner from './Components/Banner';
 import Header from './Components/Header';
+// import List from './Components/List';
 import HomeBanner from './Components/HomeBanner';
 
 function App() {
@@ -7,6 +9,8 @@ function App() {
     <div className="App">
       <Header/>
       <HomeBanner/>
+      {/* <Banner/> */}
+      {/* <List/> */}
     </div>
   );
 }
