@@ -11,13 +11,32 @@ const Login = () => {
   const[email,setEmail]=useState('')
   const[password,setPassword]=useState('')
   const [userNotExists,setUserNotExists]=useState(true)
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
   const auth=getAuth()
+
+
+  const validation = (fieldName, value) => {
+    switch(fieldName) {
+      case 'email':
+        return value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+      case 'password':
+        return value.length >= 6;
+      default:
+        break;
+    }
+  };
 
 const navigate=useNavigate()
 const location=useLocation()
 const inLoginPage=location.pathname==="/login" ? true : false;
   const ClickHandler=(e)=>{
     e.preventDefault()
+    if(!validation('email', email) || !validation('password', password)){
+      setEmailValid(validation('email', email));
+      setPasswordValid(validation('password', password));
+      return;
+    }
     if(inLoginPage){
 
       signInWithEmailAndPassword(auth,email,password).then((auth)=>{
@@ -54,7 +73,9 @@ setPassword("")
           <br/>
           <form>
             <input className="form-control" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Email"/>
+            { !emailValid && <p className="text-danger">Email is invalid/blank</p> }
             <input className="form-control" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password"/>
+            { !passwordValid && <p className="text-danger">Password is invalid/blank</p>}
             <button className="btn btn-danger btn-block" onClick={ClickHandler}>{inLoginPage ? "Sign In" : "register"}</button>
             <br/>
             { inLoginPage && <div className="form-check">
