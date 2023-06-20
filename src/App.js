@@ -25,6 +25,12 @@ function App() {
             <Login/>
           </div>
         }/>
+        <Route path="/register" element={
+          <div className="App">
+            <Header/>
+            <Login/>
+          </div>
+        }/>
         <Route path="/dashboard" element={
           <div className="App">
             <Header/>
