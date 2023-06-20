@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 const Login = () => {
 
   const app=initializeApp(firebaseConfig)
+  console.log(app)
   const[email,setEmail]=useState('')
   const[password,setPassword]=useState('')
   const [userNotExists,setUserNotExists]=useState(true)
