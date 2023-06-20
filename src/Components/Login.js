@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import {firebaseConfig} from "./firebaseConfig.js"
  import { initializeApp } from "firebase/app";
- import {getAuth,signInWithEmailAndPassword} from 'firebase/auth'
-import { useState } from "react";
+ import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword} from 'firebase/auth'
+import { useEffect, useState } from "react";
 
 
 const Login = () => {
@@ -18,17 +18,34 @@ const location=useLocation()
 const inLoginPage=location.pathname==="/login" ? true : false;
   const ClickHandler=(e)=>{
     e.preventDefault()
-signInWithEmailAndPassword(auth,email,password).then((auth)=>{
-  if(auth){
-    navigate(
-      "/dashboard"
-    )
-  }
-}).catch(error=> setUserNotExists(false))
+    if(inLoginPage){
+
+      signInWithEmailAndPassword(auth,email,password).then((auth)=>{
+        if(auth){
+          navigate(
+            "/dashboard"
+          )
+        }
+      }).catch(error=> setUserNotExists(false))
+    }else{
+             createUserWithEmailAndPassword(auth,email,password).then(
+              (auth)=>{
+                if(auth){
+                  navigate("/dashboard")
+                }
+              }
+             ).catch((err)=>{
+              setUserNotExists(false)
+             })
+    }
 
 setEmail("")
 setPassword("")
   }
+
+  useEffect(()=>{
+    setUserNotExists(true)
+  },[location])
     return (
       <div>
       <div className="login">
@@ -49,10 +66,15 @@ setPassword("")
           </form>
           <br/>
           <br/>
-     { !userNotExists
+     { !userNotExists && inLoginPage
      &&
 
-     <p className="para">User Do Not Exists Or Auth URL has Expires <span>"url= /dashboard to move futher"</span></p>
+     <p className="para">User Do Not Exists Or Auth URL has Expires | <span>| "url= /dashboard to move futher"</span></p>
+     } 
+      { !userNotExists && !inLoginPage
+     &&
+
+     <p className="para"> User Already Exists Or Auth URL has Expires | <span>| "url= /dashboard to move futher"</span></p>
      } 
           <div className="login-form-other">
             <div className="login-signup-now">{inLoginPage ? "New to Netflix?" : "Existing User?"}&nbsp;
