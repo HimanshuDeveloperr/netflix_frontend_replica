@@ -1,10 +1,27 @@
 import { useNavigate } from "react-router-dom"
+import {firebaseConfig} from "./firebaseConfig.js"
+ import { initializeApp } from "firebase/app";
+ import {getAuth,signInWithEmailAndPassword} from 'firebase/auth'
+import { useState } from "react";
+
 
 const Login = () => {
+
+  const app=initializeApp(firebaseConfig)
+  const[email,setEmail]=useState('')
+  const[password,setPassword]=useState('')
+  const auth=getAuth()
+
 const navigate=useNavigate()
   const ClickHandler=(e)=>{
     e.preventDefault()
-    navigate("/dashboard")
+signInWithEmailAndPassword(auth,email,password).then((auth)=>{
+  if(auth){
+    navigate(
+      "/dashboard"
+    )
+  }
+}).catch(error=>alert(error.message))
   }
     return (
       <div className="login">
@@ -12,8 +29,8 @@ const navigate=useNavigate()
           <h1 className="text-white">Sign In</h1>
           <br/>
           <form>
-            <input className="form-control" type="email" placeholder="Email"/>
-            <input className="form-control" type="password" placeholder="Password"/>
+            <input className="form-control" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Email"/>
+            <input className="form-control" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password"/>
             <button className="btn btn-danger btn-block" onClick={ClickHandler}>Sign In</button>
             <br/>
             <div className="form-check">

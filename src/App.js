@@ -21,6 +21,7 @@ function App() {
         />
         <Route path="/login" element={
           <div className="App">
+            <Header/>
             <Login/>
           </div>
         }/>
