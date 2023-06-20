@@ -10,6 +10,7 @@ const Login = () => {
   const app=initializeApp(firebaseConfig)
   const[email,setEmail]=useState('')
   const[password,setPassword]=useState('')
+  const [userNotExists,setUserNotExists]=useState(true)
   const auth=getAuth()
 
 const navigate=useNavigate()
@@ -21,9 +22,13 @@ signInWithEmailAndPassword(auth,email,password).then((auth)=>{
       "/dashboard"
     )
   }
-}).catch(error=>alert(error.message))
+}).catch(error=> setUserNotExists(false))
+
+setEmail("")
+setPassword("")
   }
     return (
+      <div>
       <div className="login">
         <div className="holder">
           <h1 className="text-white">Sign In</h1>
@@ -42,6 +47,11 @@ signInWithEmailAndPassword(auth,email,password).then((auth)=>{
           </form>
           <br/>
           <br/>
+     { !userNotExists
+     &&
+
+     <p className="para">User Do Not Exists Or Auth URL has Expires <span>"Click /dashboard to move futher"</span></p>
+     } 
           <div className="login-form-other">
             <div className="login-signup-now">New to Netflix? &nbsp;
               <a className=" " target="_self" href="/">Sign up now</a>.
@@ -50,6 +60,7 @@ signInWithEmailAndPassword(auth,email,password).then((auth)=>{
         </div>
         <div className="shadow"></div>
         <img className="concord-img vlv-creative" src="https://assets.nflxext.com/ffe/siteui/vlv3/6e32b96a-d4be-4e44-a19b-1bd2d2279b51/ee068656-14b9-4821-89b4-53b4937d9f1c/IN-en-20220516-popsignuptwoweeks-perspective_alpha_website_small.jpg" srcset="https://assets.nflxext.com/ffe/siteui/vlv3/6e32b96a-d4be-4e44-a19b-1bd2d2279b51/ee068656-14b9-4821-89b4-53b4937d9f1c/IN-en-20220516-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/6e32b96a-d4be-4e44-a19b-1bd2d2279b51/ee068656-14b9-4821-89b4-53b4937d9f1c/IN-en-20220516-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/6e32b96a-d4be-4e44-a19b-1bd2d2279b51/ee068656-14b9-4821-89b4-53b4937d9f1c/IN-en-20220516-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w" alt=""></img>
+      </div>
       </div>
     )
   }

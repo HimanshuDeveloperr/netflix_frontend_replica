@@ -76,8 +76,10 @@
 }
 
 // Login Page
-.login{
-  height: 100vh;
+
+
+  .login{
+    height: 100vh;
   overflow: hidden;
 
   .holder{
@@ -116,6 +118,12 @@
       a {
         color: #fff;
       }
+    }
+  }
+  .para{
+    color: red;
+    span{
+      color:green
     }
   }
 }
